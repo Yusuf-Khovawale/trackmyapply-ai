@@ -4,7 +4,7 @@ import { useActionState } from "react";
 import type { TaskActionState } from "@/app/(app)/dashboard/applications/[id]/tasks/actions";
 
 const fieldClass =
-  "rounded-md border border-black/[.08] bg-transparent px-3 py-2 text-sm outline-none focus:border-black/40 dark:border-white/[.145] dark:focus:border-white/40";
+  "glass-input px-3 py-2 text-sm";
 
 export function TaskForm({
   action,
@@ -42,12 +42,12 @@ export function TaskForm({
       <button
         type="submit"
         disabled={isPending}
-        className="rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] disabled:opacity-60 dark:hover:bg-[#ccc]"
+        className="rounded-full btn-primary px-5 py-2 text-sm disabled:opacity-60"
       >
         {isPending ? "Adding…" : "Add task"}
       </button>
       {state?.error ? (
-        <p className="text-sm text-red-600 dark:text-red-400">
+        <p className="text-sm text-red-400">
           {state.error}
         </p>
       ) : null}

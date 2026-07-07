@@ -8,7 +8,7 @@ import type {
 import { ContentPreview } from "@/components/applications/content-preview";
 
 const fieldClass =
-  "rounded-md border border-black/[.08] bg-transparent px-3 py-2 text-sm outline-none focus:border-black/40 dark:border-white/[.145] dark:focus:border-white/40";
+  "glass-input px-3 py-2 text-sm";
 
 export type ResumeOption = {
   id: string;
@@ -72,7 +72,7 @@ export function TailorForm({
         </label>
 
         {state && "error" in state ? (
-          <p className="text-sm text-red-600 dark:text-red-400">
+          <p className="text-sm text-red-400">
             {state.error}
           </p>
         ) : null}
@@ -81,7 +81,7 @@ export function TailorForm({
           <button
             type="submit"
             disabled={isPending}
-            className="self-start rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] disabled:opacity-60 dark:hover:bg-[#ccc]"
+            className="self-start rounded-full btn-primary px-5 py-2 text-sm disabled:opacity-60"
           >
             {isPending
               ? "Generating…"
@@ -90,11 +90,11 @@ export function TailorForm({
                 : "Generate tailored draft"}
           </button>
           {isPending ? (
-            <span className="text-xs text-zinc-500 dark:text-zinc-400">
+            <span className="text-xs text-zinc-400">
               This can take a few seconds…
             </span>
           ) : hasDraft ? (
-            <span className="text-xs text-zinc-500 dark:text-zinc-400">
+            <span className="text-xs text-zinc-400">
               Regenerating replaces the draft below — it won&apos;t affect
               anything you&apos;ve already saved.
             </span>
@@ -103,7 +103,7 @@ export function TailorForm({
       </form>
 
       {hasDraft ? (
-        <div className="flex flex-col gap-4 border-t border-black/[.08] pt-6 dark:border-white/[.145]">
+        <div className="flex flex-col gap-4 border-t border-white/10 pt-6">
           <div className="grid gap-4 md:grid-cols-2">
             <ContentPreview
               title={`Base resume — ${
@@ -116,9 +116,9 @@ export function TailorForm({
 
             <form
               action={saveFormAction}
-              className="flex flex-col gap-2 rounded-xl border border-black/[.08] p-4 dark:border-white/[.145]"
+              className="flex flex-col gap-2 glass-card p-4"
             >
-              <h2 className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
+              <h2 className="text-sm font-medium text-zinc-400">
                 Tailored draft
               </h2>
               <textarea
@@ -133,11 +133,11 @@ export function TailorForm({
                 value={selectedResumeId}
               />
 
-              <div className="mt-2 flex flex-col gap-3 border-t border-black/[.08] pt-4 dark:border-white/[.145]">
-                <p className="text-sm font-medium text-black dark:text-zinc-50">
+              <div className="mt-2 flex flex-col gap-3 border-t border-white/10 pt-4">
+                <p className="text-sm font-medium text-zinc-50">
                   Save as new tailored resume
                 </p>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                <p className="text-xs text-zinc-400">
                   Saving creates a new resume version in your library — it
                   never overwrites the base resume above. You can edit the
                   draft text before saving.
@@ -154,7 +154,7 @@ export function TailorForm({
                 </label>
 
                 {saveState?.error ? (
-                  <p className="text-sm text-red-600 dark:text-red-400">
+                  <p className="text-sm text-red-400">
                     {saveState.error}
                   </p>
                 ) : null}
@@ -162,7 +162,7 @@ export function TailorForm({
                 <button
                   type="submit"
                   disabled={isSavePending}
-                  className="self-start rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] disabled:opacity-60 dark:hover:bg-[#ccc]"
+                  className="self-start rounded-full btn-primary px-5 py-2 text-sm disabled:opacity-60"
                 >
                   {isSavePending ? "Saving…" : "Save as new tailored resume"}
                 </button>

@@ -11,16 +11,16 @@ function StatCardContent({
 }) {
   return (
     <>
-      <span className="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+      <span className="text-xs font-medium uppercase tracking-wider text-zinc-400">
         {label}
       </span>
       <span
-        className={`text-2xl font-semibold ${
+        className={`text-2xl font-semibold tracking-tight ${
           tone === "warning"
-            ? "text-red-600 dark:text-red-400"
+            ? "text-red-400"
             : tone === "attention"
-              ? "text-amber-700 dark:text-amber-400"
-              : "text-black dark:text-zinc-50"
+              ? "text-amber-300"
+              : "text-zinc-50"
         }`}
       >
         {value}
@@ -47,15 +47,15 @@ export function StatCard({
   href?: string;
   active?: boolean;
 }) {
-  const borderClass = active
-    ? "border-black/40 dark:border-white/40"
-    : "border-black/[.08] dark:border-white/[.145]";
+  const activeClass = active
+    ? "ring-1 ring-indigo-400/60 border-indigo-400/50"
+    : "";
 
   if (href) {
     return (
       <Link
         href={href}
-        className={`flex flex-col gap-1 rounded-xl border p-4 transition-colors hover:border-black/40 dark:hover:border-white/40 ${borderClass}`}
+        className={`glass-card glass-card-hover flex flex-col gap-1 p-4 ${activeClass}`}
       >
         <StatCardContent label={label} value={value} tone={tone} />
       </Link>
@@ -63,7 +63,7 @@ export function StatCard({
   }
 
   return (
-    <div className={`flex flex-col gap-1 rounded-xl border p-4 ${borderClass}`}>
+    <div className={`glass-card flex flex-col gap-1 p-4 ${activeClass}`}>
       <StatCardContent label={label} value={value} tone={tone} />
     </div>
   );

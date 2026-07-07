@@ -4,6 +4,17 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 
+// Lazily-created hash of a random value, used to equalize timing when a
+// sign-in attempt targets an email that has no account.
+let dummyHashPromise: Promise<string> | null = null;
+function getDummyHash() {
+  dummyHashPromise ??= bcrypt.hash(
+    `timing-equalizer-${Math.random()}`,
+    12,
+  );
+  return dummyHashPromise;
+}
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
   // The Credentials provider does not support Auth.js's database session
@@ -25,14 +36,25 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (typeof email !== "string" || typeof password !== "string") {
           return null;
         }
-
-        const user = await prisma.user.findUnique({ where: { email } });
-        if (!user?.hashedPassword) {
+        // bcrypt silently truncates input at 72 bytes; cap it so an
+        // attacker can't feed multi-megabyte "passwords" into the hash.
+        if (password.length === 0 || password.length > 72) {
           return null;
         }
 
-        const isValid = await bcrypt.compare(password, user.hashedPassword);
-        if (!isValid) {
+        const normalizedEmail = email.trim().toLowerCase();
+        const user = await prisma.user.findUnique({
+          where: { email: normalizedEmail },
+        });
+
+        // Always run one bcrypt comparison, even when the account doesn't
+        // exist, so response timing doesn't reveal which emails are
+        // registered (user enumeration via timing).
+        const hashToCheck =
+          user?.hashedPassword ?? (await getDummyHash());
+        const isValid = await bcrypt.compare(password, hashToCheck);
+
+        if (!isValid || !user?.hashedPassword) {
           return null;
         }
 

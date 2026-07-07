@@ -15,10 +15,10 @@ import {
 } from "@/components/applications/interview-prep-checklist";
 
 const fieldClass =
-  "rounded-md border border-black/[.08] bg-transparent px-3 py-2 text-sm outline-none focus:border-black/40 dark:border-white/[.145] dark:focus:border-white/40";
+  "glass-input px-3 py-2 text-sm";
 
 const cardClass =
-  "flex flex-col gap-3 rounded-xl border border-black/[.08] p-4 dark:border-white/[.145]";
+  "flex flex-col gap-3 glass-card p-4";
 
 const STAR_FIELDS = ["situation", "task", "action", "result"] as const;
 
@@ -163,10 +163,10 @@ export function InterviewPrepForm({
       <form action={generateFormAction} className={cardClass}>
         <div className="flex items-center justify-between gap-4">
           <div>
-            <p className="text-sm font-medium text-black dark:text-zinc-50">
+            <p className="text-sm font-medium text-zinc-50">
               Generate with AI
             </p>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400">
+            <p className="text-xs text-zinc-400">
               Uses this application&apos;s company, role, job description,
               and linked resume (if any) to suggest questions, prep points,
               and STAR story prompts. Adds to what&apos;s below — nothing is
@@ -176,13 +176,13 @@ export function InterviewPrepForm({
           <button
             type="submit"
             disabled={isGenerating}
-            className="shrink-0 rounded-full bg-foreground px-4 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] disabled:opacity-60 dark:hover:bg-[#ccc]"
+            className="shrink-0 rounded-full btn-primary px-4 py-2 text-sm disabled:opacity-60"
           >
             {isGenerating ? "Generating…" : "Generate interview prep"}
           </button>
         </div>
         {generateState && "error" in generateState ? (
-          <p className="text-sm text-red-600 dark:text-red-400">
+          <p className="text-sm text-red-400">
             {generateState.error}
           </p>
         ) : null}
@@ -190,7 +190,7 @@ export function InterviewPrepForm({
 
       <form action={formAction} className="flex flex-col gap-6">
         <div className={cardClass}>
-          <h2 className="text-sm font-medium text-black dark:text-zinc-50">
+          <h2 className="text-sm font-medium text-zinc-50">
             Prep notes
           </h2>
           <textarea
@@ -203,7 +203,7 @@ export function InterviewPrepForm({
         </div>
 
         <div className={cardClass}>
-          <h2 className="text-sm font-medium text-black dark:text-zinc-50">
+          <h2 className="text-sm font-medium text-zinc-50">
             Company research
           </h2>
           <textarea
@@ -218,10 +218,10 @@ export function InterviewPrepForm({
 
         <div className={cardClass}>
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-medium text-black dark:text-zinc-50">
+            <h2 className="text-sm font-medium text-zinc-50">
               Likely interview questions
               {meaningfulQuestions.length > 0 ? (
-                <span className="ml-2 font-normal text-zinc-500 dark:text-zinc-400">
+                <span className="ml-2 font-normal text-zinc-400">
                   {practicedCount} of {meaningfulQuestions.length} practiced
                 </span>
               ) : null}
@@ -234,14 +234,14 @@ export function InterviewPrepForm({
                   { question: "", notes: "", practiced: false },
                 ])
               }
-              className="text-sm text-black hover:underline dark:text-zinc-50"
+              className="text-sm text-zinc-50 hover:underline"
             >
               + Add question
             </button>
           </div>
 
           {questions.length === 0 ? (
-            <p className="text-sm text-zinc-500 dark:text-zinc-400">
+            <p className="text-sm text-zinc-400">
               No questions added yet. Add one manually, or use{" "}
               <span className="font-medium">Generate with AI</span> above.
             </p>
@@ -250,7 +250,7 @@ export function InterviewPrepForm({
           {questions.map((question, index) => (
             <div
               key={index}
-              className="flex flex-col gap-2 rounded-xl border border-black/[.08] p-4 dark:border-white/[.145]"
+              className="flex flex-col gap-2 glass-card p-4"
             >
               <div className="flex items-start gap-2">
                 <input
@@ -273,7 +273,7 @@ export function InterviewPrepForm({
                   onClick={() =>
                     setQuestions((prev) => prev.filter((_, i) => i !== index))
                   }
-                  className="text-sm text-red-600 hover:underline dark:text-red-400"
+                  className="text-sm text-red-400 hover:underline"
                 >
                   Remove
                 </button>
@@ -293,7 +293,7 @@ export function InterviewPrepForm({
                 placeholder="Notes on how you'd answer (optional)"
                 className={fieldClass}
               />
-              <label className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
+              <label className="flex items-center gap-2 text-sm text-zinc-400">
                 <input
                   type="checkbox"
                   checked={question.practiced}
@@ -320,10 +320,10 @@ export function InterviewPrepForm({
 
         <div className={cardClass}>
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-medium text-black dark:text-zinc-50">
+            <h2 className="text-sm font-medium text-zinc-50">
               STAR stories
               {meaningfulStories.length > 0 ? (
-                <span className="ml-2 font-normal text-zinc-500 dark:text-zinc-400">
+                <span className="ml-2 font-normal text-zinc-400">
                   {readyCount} of {meaningfulStories.length} ready
                 </span>
               ) : null}
@@ -343,14 +343,14 @@ export function InterviewPrepForm({
                   },
                 ])
               }
-              className="text-sm text-black hover:underline dark:text-zinc-50"
+              className="text-sm text-zinc-50 hover:underline"
             >
               + Add story
             </button>
           </div>
 
           {stories.length === 0 ? (
-            <p className="text-sm text-zinc-500 dark:text-zinc-400">
+            <p className="text-sm text-zinc-400">
               No STAR stories added yet. Add one manually, or generate
               starter prompts above and fill in the details.
             </p>
@@ -359,7 +359,7 @@ export function InterviewPrepForm({
           {stories.map((story, index) => (
             <div
               key={index}
-              className="flex flex-col gap-2 rounded-xl border border-black/[.08] p-4 dark:border-white/[.145]"
+              className="flex flex-col gap-2 glass-card p-4"
             >
               <div className="flex items-start gap-2">
                 <input
@@ -382,7 +382,7 @@ export function InterviewPrepForm({
                   onClick={() =>
                     setStories((prev) => prev.filter((_, i) => i !== index))
                   }
-                  className="text-sm text-red-600 hover:underline dark:text-red-400"
+                  className="text-sm text-red-400 hover:underline"
                 >
                   Remove
                 </button>
@@ -391,7 +391,7 @@ export function InterviewPrepForm({
                 {STAR_FIELDS.map((field) => (
                   <label
                     key={field}
-                    className="flex flex-col gap-1 text-xs capitalize text-zinc-500 dark:text-zinc-400"
+                    className="flex flex-col gap-1 text-xs capitalize text-zinc-400"
                   >
                     {field}
                     <textarea
@@ -411,7 +411,7 @@ export function InterviewPrepForm({
                   </label>
                 ))}
               </div>
-              <label className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
+              <label className="flex items-center gap-2 text-sm text-zinc-400">
                 <input
                   type="checkbox"
                   checked={story.ready}
@@ -433,7 +433,7 @@ export function InterviewPrepForm({
         </div>
 
         {state?.error ? (
-          <p className="text-sm text-red-600 dark:text-red-400">
+          <p className="text-sm text-red-400">
             {state.error}
           </p>
         ) : null}
@@ -441,7 +441,7 @@ export function InterviewPrepForm({
         <button
           type="submit"
           disabled={isPending}
-          className="self-start rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] disabled:opacity-60 dark:hover:bg-[#ccc]"
+          className="self-start rounded-full btn-primary px-5 py-2 text-sm disabled:opacity-60"
         >
           {isPending ? "Saving…" : "Save interview prep"}
         </button>

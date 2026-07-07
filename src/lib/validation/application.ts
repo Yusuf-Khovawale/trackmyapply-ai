@@ -11,9 +11,21 @@ const emptyToUndefined = (value: unknown) =>
 const optionalText = (max: number) =>
   z.preprocess(emptyToUndefined, z.string().trim().max(max).optional());
 
+// Only http(s) URLs are accepted: these values are rendered as <a href>
+// links, so allowing other schemes (javascript:, data:, etc.) would let a
+// stored value execute script when clicked.
 const optionalUrl = z.preprocess(
   emptyToUndefined,
-  z.string().trim().max(500).url("Enter a valid URL").optional(),
+  z
+    .string()
+    .trim()
+    .max(500)
+    .url("Enter a valid URL")
+    .refine(
+      (value) => /^https?:\/\//i.test(value),
+      "URL must start with http:// or https://",
+    )
+    .optional(),
 );
 
 const optionalDateInput = z.preprocess(

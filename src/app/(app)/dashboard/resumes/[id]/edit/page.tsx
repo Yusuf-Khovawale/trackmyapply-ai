@@ -24,14 +24,14 @@ export default async function EditResumePage({
   const boundUpdate = updateResume.bind(null, resume.id);
 
   return (
-    <div className="flex flex-1 flex-col gap-6 p-8 sm:p-16">
+    <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-8 px-6 py-10 sm:py-12">
       <div>
-        <h1 className="text-2xl font-semibold text-black dark:text-zinc-50">
+        <h1 className="text-2xl font-semibold tracking-tight text-zinc-50">
           Edit resume
         </h1>
         <Link
           href="/dashboard/resumes"
-          className="mt-1 inline-block text-sm text-zinc-600 hover:underline dark:text-zinc-400"
+          className="mt-1 inline-block text-sm text-zinc-400 hover:underline"
         >
           ← Back to resumes
         </Link>

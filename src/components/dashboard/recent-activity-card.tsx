@@ -23,31 +23,31 @@ export function RecentActivityCard({
   const remaining = totalCount - applications.length;
 
   return (
-    <div className="flex flex-col gap-3 rounded-xl border border-black/[.08] p-4 dark:border-white/[.145]">
+    <div className="flex flex-col gap-3 glass-card p-4">
       <div className="flex items-center justify-between gap-4">
-        <h2 className="text-sm font-medium text-black dark:text-zinc-50">
+        <h2 className="text-sm font-medium text-zinc-50">
           Recent activity
         </h2>
         <div className="flex items-center gap-2 text-xs">
           {remaining > 0 ? (
-            <span className="text-zinc-500 dark:text-zinc-400">
+            <span className="text-zinc-400">
               +{remaining} more
             </span>
           ) : null}
           <Link
             href={viewAllHref}
-            className="font-medium text-black hover:underline dark:text-zinc-50"
+            className="font-medium text-zinc-50 hover:underline"
           >
             View all
           </Link>
         </div>
       </div>
       {applications.length === 0 ? (
-        <p className="text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="text-sm text-zinc-400">
           No applications yet.
         </p>
       ) : (
-        <ul className="flex flex-col divide-y divide-black/[.08] dark:divide-white/[.145]">
+        <ul className="flex flex-col divide-y divide-white/10">
           {applications.map((application) => (
             <li
               key={application.id}
@@ -56,17 +56,17 @@ export function RecentActivityCard({
               <div>
                 <Link
                   href={`/dashboard/applications/${application.id}/edit`}
-                  className="font-medium text-black hover:underline dark:text-zinc-50"
+                  className="font-medium text-zinc-50 hover:underline"
                 >
                   {application.role}
                 </Link>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                <p className="text-xs text-zinc-400">
                   {application.company}
                 </p>
               </div>
               <div className="flex shrink-0 flex-col items-end gap-1">
                 <StatusBadge status={application.status} />
-                <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                <span className="text-xs text-zinc-400">
                   {formatDisplayDate(application.updatedAt)}
                 </span>
               </div>

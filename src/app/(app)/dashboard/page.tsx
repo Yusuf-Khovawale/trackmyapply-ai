@@ -222,7 +222,7 @@ export default async function DashboardPage({
           : null;
 
   return (
-    <div className="flex flex-1 flex-col gap-6 p-8 sm:p-16">
+    <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-8 px-6 py-10 sm:py-12">
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
         <StatCard
           label="Total applications"
@@ -292,21 +292,21 @@ export default async function DashboardPage({
       </div>
 
       {taskDrilldown ? (
-        <div className="flex flex-col gap-3 rounded-xl border border-black/[.08] p-4 dark:border-white/[.145]">
+        <div className="flex flex-col gap-3 glass-card p-4">
           <div className="flex items-center justify-between gap-4">
-            <h2 className="text-sm font-medium text-black dark:text-zinc-50">
+            <h2 className="text-sm font-medium text-zinc-50">
               {FILTER_LABELS[filter as DashboardFilter]}
             </h2>
             <Link
               href="/dashboard"
-              className="text-sm text-zinc-600 hover:underline dark:text-zinc-400"
+              className="text-sm text-zinc-400 hover:underline"
             >
               Clear
             </Link>
           </div>
 
           {taskDrilldown.length === 0 ? (
-            <p className="text-sm text-zinc-500 dark:text-zinc-400">
+            <p className="text-sm text-zinc-400">
               {filter === "overdue-tasks"
                 ? "No overdue tasks."
                 : filter === "due-today-tasks"
@@ -314,7 +314,7 @@ export default async function DashboardPage({
                   : "No open tasks. You're all caught up."}
             </p>
           ) : (
-            <ul className="flex flex-col divide-y divide-black/[.08] dark:divide-white/[.145]">
+            <ul className="flex flex-col divide-y divide-white/10">
               {taskDrilldown.map((task) => {
                 const overdue = isTaskOverdue(task);
                 const dueToday = isTaskDueToday(task);
@@ -326,21 +326,21 @@ export default async function DashboardPage({
                     <div>
                       <Link
                         href={`/dashboard/applications/${task.applicationId}/tasks`}
-                        className="font-medium text-black hover:underline dark:text-zinc-50"
+                        className="font-medium text-zinc-50 hover:underline"
                       >
                         {task.title}
                       </Link>
-                      <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                      <p className="text-xs text-zinc-400">
                         {task.application.role} at {task.application.company}
                       </p>
                     </div>
                     <span
                       className={
                         overdue
-                          ? "text-xs font-medium text-red-600 dark:text-red-400"
+                          ? "text-xs font-medium text-red-400"
                           : dueToday
-                            ? "text-xs font-medium text-amber-700 dark:text-amber-400"
-                            : "text-xs text-zinc-600 dark:text-zinc-400"
+                            ? "text-xs font-medium text-amber-300"
+                            : "text-xs text-zinc-400"
                       }
                     >
                       {overdue ? "Overdue · " : dueToday ? "Today · " : ""}
@@ -359,10 +359,10 @@ export default async function DashboardPage({
         className="flex flex-wrap items-center justify-between gap-4 scroll-mt-8"
       >
         <div>
-          <h1 className="text-2xl font-semibold text-black dark:text-zinc-50">
+          <h1 className="text-2xl font-semibold tracking-tight text-zinc-50">
             Applications
           </h1>
-          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+          <p className="mt-1 text-sm text-zinc-400">
             {filter && APPLICATION_FILTERS.includes(filter as (typeof APPLICATION_FILTERS)[number]) ? (
               <>
                 {displayedApplications.length}{" "}
@@ -385,15 +385,15 @@ export default async function DashboardPage({
         </div>
         <Link
           href="/dashboard/applications/new"
-          className="rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc]"
+          className="rounded-full btn-primary px-5 py-2 text-sm"
         >
           Add application
         </Link>
       </div>
 
       {displayedApplications.length === 0 ? (
-        <div className="flex flex-col items-start gap-3 rounded-xl border border-dashed border-black/[.08] p-8 dark:border-white/[.145]">
-          <p className="text-zinc-700 dark:text-zinc-300">
+        <div className="flex flex-col items-start gap-3 rounded-xl border border-dashed border-white/10 p-8">
+          <p className="text-zinc-300">
             {applications.length === 0
               ? "No applications yet. Add your first one to start tracking your job search."
               : "No applications match this filter."}
@@ -401,14 +401,14 @@ export default async function DashboardPage({
           {applications.length === 0 ? (
             <Link
               href="/dashboard/applications/new"
-              className="rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc]"
+              className="rounded-full btn-primary px-5 py-2 text-sm"
             >
               Add your first application
             </Link>
           ) : (
             <Link
               href="/dashboard"
-              className="text-sm text-black underline dark:text-zinc-50"
+              className="text-sm text-zinc-50 underline"
             >
               Clear filter
             </Link>

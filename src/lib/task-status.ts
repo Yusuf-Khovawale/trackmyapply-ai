@@ -15,10 +15,10 @@ export const TASK_STATUS_LABELS: Record<TaskStatusValue, string> = {
 // Tailwind classes per status, used by the inline status select — mirrors
 // application-status.ts's STATUS_STYLES.
 export const TASK_STATUS_STYLES: Record<TaskStatusValue, string> = {
-  TODO: "bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300",
-  DOING: "bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300",
-  DONE: "bg-green-100 text-green-700 dark:bg-green-950 dark:text-green-300",
-  DISMISSED: "bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-500",
+  TODO: "bg-white/10 text-zinc-300",
+  DOING: "bg-blue-400/15 text-blue-300",
+  DONE: "bg-green-400/15 text-green-300",
+  DISMISSED: "bg-white/[.06] text-zinc-500",
 };
 
 type DueDateCheckable = {

@@ -17,18 +17,18 @@ export function StatusBreakdownChart({
   const maxCount = Math.max(1, ...APPLICATION_STATUSES.map((s) => counts[s]));
 
   return (
-    <div className="flex flex-col gap-3 rounded-xl border border-black/[.08] p-4 dark:border-white/[.145]">
+    <div className="flex flex-col gap-3 glass-card p-4">
       <div className="flex items-center justify-between gap-4">
-        <h2 className="text-sm font-medium text-black dark:text-zinc-50">
+        <h2 className="text-sm font-medium text-zinc-50">
           Status breakdown
         </h2>
-        <span className="text-xs text-zinc-500 dark:text-zinc-400">
+        <span className="text-xs text-zinc-400">
           {total} total
         </span>
       </div>
 
       {total === 0 ? (
-        <p className="text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="text-sm text-zinc-400">
           No applications yet.
         </p>
       ) : (
@@ -38,16 +38,16 @@ export function StatusBreakdownChart({
             const widthPercent = (count / maxCount) * 100;
             return (
               <li key={status} className="flex items-center gap-3 text-sm">
-                <span className="w-20 shrink-0 text-zinc-600 dark:text-zinc-400">
+                <span className="w-20 shrink-0 text-zinc-400">
                   {STATUS_LABELS[status]}
                 </span>
-                <span className="relative h-4 flex-1 overflow-hidden rounded bg-black/[.04] dark:bg-white/[.06]">
+                <span className="relative h-4 flex-1 overflow-hidden rounded bg-white/[.06]">
                   <span
                     className={`absolute inset-y-0 left-0 rounded ${STATUS_CHART_BAR_CLASSES[status]}`}
                     style={{ width: `${widthPercent}%` }}
                   />
                 </span>
-                <span className="w-6 shrink-0 text-right font-medium text-black dark:text-zinc-50">
+                <span className="w-6 shrink-0 text-right font-medium text-zinc-50">
                   {count}
                 </span>
               </li>

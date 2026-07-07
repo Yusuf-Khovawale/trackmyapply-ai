@@ -9,9 +9,9 @@ export function TasksTable({
   tasks: Task[];
 }) {
   return (
-    <div className="overflow-x-auto rounded-xl border border-black/[.08] dark:border-white/[.145]">
+    <div className="overflow-x-auto glass-card">
       <table className="w-full min-w-[600px] text-left text-sm">
-        <thead className="border-b border-black/[.08] text-xs uppercase tracking-wide text-zinc-500 dark:border-white/[.145] dark:text-zinc-400">
+        <thead className="border-b border-white/10 text-xs uppercase tracking-wide text-zinc-400">
           <tr>
             <th className="px-4 py-3 font-medium">Task</th>
             <th className="px-4 py-3 font-medium">Due date</th>

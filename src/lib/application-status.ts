@@ -37,19 +37,19 @@ export const ACTIVE_APPLICATION_STATUSES: readonly ApplicationStatusValue[] = [
 
 export const STATUS_STYLES: Record<ApplicationStatusValue, string> = {
   SAVED:
-    "bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300",
+    "bg-white/10 text-zinc-300",
   APPLIED:
-    "bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300",
+    "bg-blue-400/15 text-blue-300",
   SCREENING:
-    "bg-purple-100 text-purple-700 dark:bg-purple-950 dark:text-purple-300",
+    "bg-purple-400/15 text-purple-300",
   INTERVIEW:
-    "bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300",
+    "bg-amber-400/15 text-amber-300",
   OFFER:
-    "bg-green-100 text-green-700 dark:bg-green-950 dark:text-green-300",
+    "bg-green-400/15 text-green-300",
   REJECTED:
-    "bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-300",
+    "bg-red-400/15 text-red-300",
   WITHDRAWN:
-    "bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-500",
+    "bg-white/[.06] text-zinc-500",
 };
 
 // Milestone 6 Batch 5: solid bar-fill colors for the dashboard's status
@@ -63,11 +63,11 @@ export const STATUS_STYLES: Record<ApplicationStatusValue, string> = {
 // already read clearly (blue/green/red); SAVED/SCREENING/WITHDRAWN needed a
 // real hue since gray has too little chroma to work as a chart mark.
 export const STATUS_CHART_BAR_CLASSES: Record<ApplicationStatusValue, string> = {
-  SAVED: "bg-[#eb6834] dark:bg-[#d95926]",
-  APPLIED: "bg-[#2a78d6] dark:bg-[#3987e5]",
-  SCREENING: "bg-[#eda100] dark:bg-[#c98500]",
-  INTERVIEW: "bg-[#4a3aa7] dark:bg-[#9085e9]",
+  SAVED: "bg-[#d95926]",
+  APPLIED: "bg-[#3987e5]",
+  SCREENING: "bg-[#c98500]",
+  INTERVIEW: "bg-[#9085e9]",
   OFFER: "bg-[#008300]",
-  REJECTED: "bg-[#e34948] dark:bg-[#e66767]",
-  WITHDRAWN: "bg-[#e87ba4] dark:bg-[#d55181]",
+  REJECTED: "bg-[#e66767]",
+  WITHDRAWN: "bg-[#d55181]",
 };

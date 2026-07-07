@@ -52,10 +52,10 @@ function formatWeekLabel(date: Date) {
 // so the dot rings sit flush against it rather than showing a mismatched
 // box. Same blue hue as the status breakdown chart's APPLIED bar, reused
 // here for the one series this chart plots.
-const SURFACE_RING_CLASS = "stroke-white dark:stroke-[#0a0a0a]";
-const LINE_CLASS = "stroke-[#2a78d6] dark:stroke-[#3987e5]";
-const DOT_FILL_CLASS = "fill-[#2a78d6] dark:fill-[#3987e5]";
-const AREA_FILL_CLASS = "fill-[#2a78d6]/10 dark:fill-[#3987e5]/10";
+const SURFACE_RING_CLASS = "stroke-[#07080d]";
+const LINE_CLASS = "stroke-[#3987e5]";
+const DOT_FILL_CLASS = "fill-[#3987e5]";
+const AREA_FILL_CLASS = "fill-[#3987e5]/10";
 
 export function ApplicationsTrendChart({
   createdDates,
@@ -106,12 +106,12 @@ export function ApplicationsTrendChart({
   const areaPoints = `${marginX},${baselineY} ${linePoints} ${marginX + plotWidth},${baselineY}`;
 
   return (
-    <div className="flex flex-col gap-3 rounded-xl border border-black/[.08] p-4 dark:border-white/[.145]">
+    <div className="flex flex-col gap-3 glass-card p-4">
       <div className="flex items-center justify-between gap-4">
-        <h2 className="text-sm font-medium text-black dark:text-zinc-50">
+        <h2 className="text-sm font-medium text-zinc-50">
           Applications per week
         </h2>
-        <span className="text-xs text-zinc-500 dark:text-zinc-400">
+        <span className="text-xs text-zinc-400">
           Last {WEEKS} weeks · {total} total
         </span>
       </div>
@@ -120,8 +120,8 @@ export function ApplicationsTrendChart({
         <p
           className={`-mt-2 text-xs ${
             weekOverWeekTone === "up"
-              ? "text-green-700 dark:text-green-400"
-              : "text-zinc-500 dark:text-zinc-400"
+              ? "text-green-400"
+              : "text-zinc-400"
           }`}
         >
           <span aria-hidden="true">{weekOverWeekGlyph}</span>{" "}
@@ -130,7 +130,7 @@ export function ApplicationsTrendChart({
       ) : null}
 
       {total === 0 ? (
-        <p className="text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="text-sm text-zinc-400">
           No applications added in the last {WEEKS} weeks. Add one to start
           tracking your weekly momentum.
         </p>
@@ -148,7 +148,7 @@ export function ApplicationsTrendChart({
             y1={baselineY}
             x2={marginX + plotWidth}
             y2={baselineY}
-            className="stroke-black/[.08] dark:stroke-white/[.145]"
+            className="stroke-white/10"
             strokeWidth={1}
           />
 
@@ -176,7 +176,7 @@ export function ApplicationsTrendChart({
                 x={p.x}
                 y={p.y - 10}
                 textAnchor="middle"
-                className="fill-zinc-700 text-[10px] font-medium dark:fill-zinc-300"
+                className="fill-zinc-300 text-[10px] font-medium"
               >
                 {p.count}
               </text>
@@ -184,7 +184,7 @@ export function ApplicationsTrendChart({
                 x={p.x}
                 y={height - 4}
                 textAnchor="middle"
-                className="fill-zinc-500 text-[10px] dark:fill-zinc-400"
+                className="fill-zinc-400 text-[10px]"
               >
                 {p.label}
               </text>

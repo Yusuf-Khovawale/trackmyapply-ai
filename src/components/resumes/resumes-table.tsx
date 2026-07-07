@@ -5,9 +5,9 @@ import { formatDisplayDate } from "@/lib/date";
 
 export function ResumesTable({ resumes }: { resumes: Resume[] }) {
   return (
-    <div className="overflow-x-auto rounded-xl border border-black/[.08] dark:border-white/[.145]">
+    <div className="overflow-x-auto glass-card">
       <table className="w-full min-w-[700px] text-left text-sm">
-        <thead className="border-b border-black/[.08] text-xs uppercase tracking-wide text-zinc-500 dark:border-white/[.145] dark:text-zinc-400">
+        <thead className="border-b border-white/10 text-xs uppercase tracking-wide text-zinc-400">
           <tr>
             <th className="px-4 py-3 font-medium">Title</th>
             <th className="px-4 py-3 font-medium">Version label</th>
@@ -20,9 +20,9 @@ export function ResumesTable({ resumes }: { resumes: Resume[] }) {
           {resumes.map((resume) => (
             <tr
               key={resume.id}
-              className="border-b border-black/[.08] last:border-0 dark:border-white/[.145]"
+              className="border-b border-white/10 transition-colors last:border-0 hover:bg-white/[.04]"
             >
-              <td className="px-4 py-3 font-medium text-black dark:text-zinc-50">
+              <td className="px-4 py-3 font-medium text-zinc-50">
                 {resume.fileUrl ? (
                   <a
                     href={resume.fileUrl}
@@ -36,20 +36,20 @@ export function ResumesTable({ resumes }: { resumes: Resume[] }) {
                   resume.title
                 )}
               </td>
-              <td className="px-4 py-3 text-zinc-600 dark:text-zinc-400">
+              <td className="px-4 py-3 text-zinc-400">
                 {resume.versionLabel ?? "—"}
               </td>
-              <td className="px-4 py-3 text-zinc-600 dark:text-zinc-400">
+              <td className="px-4 py-3 text-zinc-400">
                 {resume.baseRole ?? "—"}
               </td>
-              <td className="px-4 py-3 text-zinc-600 dark:text-zinc-400">
+              <td className="px-4 py-3 text-zinc-400">
                 {formatDisplayDate(resume.updatedAt)}
               </td>
               <td className="px-4 py-3">
                 <div className="flex items-center gap-3">
                   <Link
                     href={`/dashboard/resumes/${resume.id}/edit`}
-                    className="text-sm text-black hover:underline dark:text-zinc-50"
+                    className="text-sm text-zinc-50 hover:underline"
                   >
                     Edit
                   </Link>

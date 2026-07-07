@@ -4,7 +4,7 @@ import { useActionState } from "react";
 import type { ActionState } from "@/app/(app)/dashboard/resumes/actions";
 
 const fieldClass =
-  "rounded-md border border-black/[.08] bg-transparent px-3 py-2 text-sm outline-none focus:border-black/40 dark:border-white/[.145] dark:focus:border-white/40";
+  "glass-input px-3 py-2 text-sm";
 
 export type ResumeFormDefaults = {
   title?: string;
@@ -96,7 +96,7 @@ export function ResumeForm({
       </label>
 
       {state?.error ? (
-        <p className="text-sm text-red-600 dark:text-red-400">
+        <p className="text-sm text-red-400">
           {state.error}
         </p>
       ) : null}
@@ -104,7 +104,7 @@ export function ResumeForm({
       <button
         type="submit"
         disabled={isPending}
-        className="self-start rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] disabled:opacity-60 dark:hover:bg-[#ccc]"
+        className="self-start rounded-full btn-primary px-5 py-2 text-sm disabled:opacity-60"
       >
         {isPending ? "Saving…" : submitLabel}
       </button>

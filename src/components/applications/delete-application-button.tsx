@@ -13,7 +13,7 @@ export function DeleteApplicationButton({ id }: { id: string }) {
       <button
         type="button"
         onClick={() => setConfirming(true)}
-        className="text-sm text-red-600 hover:underline dark:text-red-400"
+        className="text-sm text-red-400 hover:underline"
       >
         Delete
       </button>
@@ -22,7 +22,7 @@ export function DeleteApplicationButton({ id }: { id: string }) {
 
   return (
     <div className="flex items-center gap-2 text-sm">
-      <span className="text-zinc-500 dark:text-zinc-400">Delete?</span>
+      <span className="text-zinc-400">Delete?</span>
       <button
         type="button"
         disabled={isPending}
@@ -35,19 +35,19 @@ export function DeleteApplicationButton({ id }: { id: string }) {
             }
           });
         }}
-        className="font-medium text-red-600 hover:underline disabled:opacity-60 dark:text-red-400"
+        className="font-medium text-red-400 hover:underline disabled:opacity-60"
       >
         {isPending ? "Deleting…" : "Confirm"}
       </button>
       <button
         type="button"
         onClick={() => setConfirming(false)}
-        className="text-zinc-500 hover:underline dark:text-zinc-400"
+        className="text-zinc-400 hover:underline"
       >
         Cancel
       </button>
       {error ? (
-        <span className="text-red-600 dark:text-red-400">{error}</span>
+        <span className="text-red-400">{error}</span>
       ) : null}
     </div>
   );

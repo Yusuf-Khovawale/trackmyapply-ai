@@ -12,20 +12,20 @@ export function ConversionMetricsCard({
   metrics: ConversionMetric[];
 }) {
   return (
-    <div className="flex flex-col gap-3 rounded-xl border border-black/[.08] p-4 dark:border-white/[.145]">
-      <h2 className="text-sm font-medium text-black dark:text-zinc-50">
+    <div className="flex flex-col gap-3 glass-card p-4">
+      <h2 className="text-sm font-medium text-zinc-50">
         Conversion rates
       </h2>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         {metrics.map((metric) => (
           <div key={metric.label} className="flex flex-col gap-1">
-            <span className="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+            <span className="text-xs font-medium uppercase tracking-wide text-zinc-400">
               {metric.label}
             </span>
-            <span className="text-2xl font-semibold text-black dark:text-zinc-50">
+            <span className="text-2xl font-semibold tracking-tight text-zinc-50">
               {metric.value === null ? "—" : `${metric.value}%`}
             </span>
-            <span className="text-xs text-zinc-500 dark:text-zinc-400">
+            <span className="text-xs text-zinc-400">
               {metric.detail}
             </span>
           </div>

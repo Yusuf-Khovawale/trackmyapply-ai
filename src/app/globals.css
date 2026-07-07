@@ -1,8 +1,16 @@
 @import "tailwindcss";
 
+/* The app ships a single, deliberate dark theme (class-based, set on <html>
+   in the root layout) rather than following the OS setting — the glass
+   design system below is tuned for dark surfaces. All existing `dark:`
+   utilities key off this class. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #07080d;
+  --foreground: #e8eaf2;
+  /* Native form controls (selects, date pickers, scrollbars) render dark. */
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -12,15 +20,168 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+/* Ambient layered light behind every screen — fixed so content scrolls
+   over it, giving glass surfaces something to refract. Kept dim enough
+   that text contrast is never affected. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(640px 440px at 12% -8%, rgb(99 102 241 / 0.16), transparent 65%),
+    radial-gradient(720px 480px at 88% 2%, rgb(34 211 238 / 0.09), transparent 65%),
+    radial-gradient(960px 680px at 50% 120%, rgb(139 92 246 / 0.12), transparent 68%);
+}
+
+::selection {
+  background: rgb(99 102 241 / 0.4);
+  color: #ffffff;
+}
+
+/* Visible, consistent keyboard-focus outline everywhere. */
+:focus-visible {
+  outline: 2px solid rgb(129 140 248 / 0.9);
+  outline-offset: 2px;
+}
+
+/* ---------------------------------------------------------------------
+   Glass design system — the shared surface/control primitives. Markup
+   keeps layout utilities (padding, flex, width); these classes own the
+   material: fill, border, blur, highlight, shadow, and motion.
+   --------------------------------------------------------------------- */
+@layer components {
+  /* Primary translucent panel: cards, tables, form sections. */
+  .glass-card {
+    border-radius: 1.25rem;
+    border: 1px solid rgb(255 255 255 / 0.08);
+    background: linear-gradient(
+      180deg,
+      rgb(255 255 255 / 0.09),
+      rgb(255 255 255 / 0.035) 55%,
+      rgb(255 255 255 / 0.02)
+    );
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+    backdrop-filter: blur(18px) saturate(150%);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.1),
+      0 10px 30px -12px rgb(0 0 0 / 0.6);
+  }
+
+  /* Interactive glass panel (linked cards): gentle lift + brighter rim. */
+  .glass-card-hover {
+    transition:
+      transform 180ms ease,
+      border-color 180ms ease,
+      box-shadow 180ms ease;
+  }
+  .glass-card-hover:hover {
+    transform: translateY(-2px);
+    border-color: rgb(255 255 255 / 0.16);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.14),
+      0 16px 40px -12px rgb(0 0 0 / 0.65);
+  }
+
+  /* Text inputs, textareas, selects. */
+  .glass-input {
+    border-radius: 0.75rem;
+    border: 1px solid rgb(255 255 255 / 0.1);
+    background-color: rgb(255 255 255 / 0.05);
+    color: var(--foreground);
+    outline: none;
+    transition:
+      border-color 150ms ease,
+      background-color 150ms ease,
+      box-shadow 150ms ease;
+  }
+  .glass-input::placeholder {
+    color: rgb(232 234 242 / 0.35);
+  }
+  .glass-input:hover {
+    border-color: rgb(255 255 255 / 0.18);
+  }
+  .glass-input:focus {
+    border-color: rgb(129 140 248 / 0.7);
+    background-color: rgb(255 255 255 / 0.07);
+    box-shadow: 0 0 0 3px rgb(99 102 241 / 0.22);
+  }
+
+  /* Primary action button: luminous indigo glass with top highlight. */
+  .btn-primary {
+    font-weight: 500;
+    color: #ffffff;
+    border: 1px solid rgb(255 255 255 / 0.18);
+    background: linear-gradient(
+      180deg,
+      rgb(129 140 248 / 0.95),
+      rgb(99 102 241 / 0.9)
+    );
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.25),
+      0 6px 20px -6px rgb(99 102 241 / 0.5);
+    transition:
+      transform 150ms ease,
+      box-shadow 150ms ease,
+      filter 150ms ease;
+  }
+  .btn-primary:hover:not(:disabled) {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.25),
+      0 10px 26px -6px rgb(99 102 241 / 0.6);
+  }
+  .btn-primary:active:not(:disabled) {
+    transform: translateY(0) scale(0.98);
+    filter: brightness(0.96);
+  }
+  .btn-primary:disabled {
+    opacity: 0.55;
+  }
+
+  /* Secondary / quiet button: frosted neutral glass. */
+  .btn-secondary {
+    font-weight: 500;
+    color: rgb(232 234 242 / 0.9);
+    border: 1px solid rgb(255 255 255 / 0.12);
+    background-color: rgb(255 255 255 / 0.05);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    transition:
+      background-color 150ms ease,
+      border-color 150ms ease,
+      transform 150ms ease;
+  }
+  .btn-secondary:hover:not(:disabled) {
+    background-color: rgb(255 255 255 / 0.1);
+    border-color: rgb(255 255 255 / 0.2);
+  }
+  .btn-secondary:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+  .btn-secondary:disabled {
+    opacity: 0.55;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Respect users who prefer reduced motion: collapse all transitions and
+   animations app-wide. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

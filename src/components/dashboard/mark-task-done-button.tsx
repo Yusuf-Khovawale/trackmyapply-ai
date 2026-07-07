@@ -20,7 +20,7 @@ export function MarkTaskDoneButton({
 
   if (done) {
     return (
-      <span className="text-xs text-zinc-500 dark:text-zinc-400">
+      <span className="text-xs text-zinc-400">
         Marked done
       </span>
     );
@@ -42,12 +42,12 @@ export function MarkTaskDoneButton({
             }
           });
         }}
-        className="text-xs font-medium text-black hover:underline disabled:opacity-60 dark:text-zinc-50"
+        className="text-xs font-medium text-zinc-50 hover:underline disabled:opacity-60"
       >
         {isPending ? "Marking…" : "Mark done"}
       </button>
       {error ? (
-        <span className="text-xs text-red-600 dark:text-red-400">
+        <span className="text-xs text-red-400">
           {error}
         </span>
       ) : null}

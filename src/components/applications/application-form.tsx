@@ -10,7 +10,7 @@ import {
 import type { ActionState } from "@/app/(app)/dashboard/actions";
 
 const fieldClass =
-  "rounded-md border border-black/[.08] bg-transparent px-3 py-2 text-sm outline-none focus:border-black/40 dark:border-white/[.145] dark:focus:border-white/40";
+  "glass-input px-3 py-2 text-sm";
 
 export type ResumeOption = {
   id: string;
@@ -123,7 +123,7 @@ export function ApplicationForm({
           defaultValue={defaultValues?.jobDescription}
           className={fieldClass}
         />
-        <span className="text-xs text-zinc-500 dark:text-zinc-400">
+        <span className="text-xs text-zinc-400">
           Kept as source material for future resume tailoring.
         </span>
       </label>
@@ -164,13 +164,13 @@ export function ApplicationForm({
           ))}
         </select>
         {!defaultValues?.resumeId && defaultValues?.resumeVersion ? (
-          <span className="text-xs text-zinc-500 dark:text-zinc-400">
+          <span className="text-xs text-zinc-400">
             Previously recorded as &ldquo;{defaultValues.resumeVersion}
             &rdquo;. Link a saved resume above to replace this.
           </span>
         ) : null}
         {resumes.length === 0 ? (
-          <span className="text-xs text-zinc-500 dark:text-zinc-400">
+          <span className="text-xs text-zinc-400">
             No saved resumes yet.{" "}
             <Link href="/dashboard/resumes/new" className="underline">
               Add one
@@ -191,7 +191,7 @@ export function ApplicationForm({
       </label>
 
       {state?.error ? (
-        <p className="text-sm text-red-600 dark:text-red-400">
+        <p className="text-sm text-red-400">
           {state.error}
         </p>
       ) : null}
@@ -199,7 +199,7 @@ export function ApplicationForm({
       <button
         type="submit"
         disabled={isPending}
-        className="self-start rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] disabled:opacity-60 dark:hover:bg-[#ccc]"
+        className="self-start rounded-full btn-primary px-5 py-2 text-sm disabled:opacity-60"
       >
         {isPending ? "Saving…" : submitLabel}
       </button>

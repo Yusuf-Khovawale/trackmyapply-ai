@@ -44,13 +44,21 @@ export async function registerAndSignIn(
   if (password.length < 8) {
     return "Password must be at least 8 characters.";
   }
+  // bcrypt silently truncates at 72 bytes — reject longer passwords rather
+  // than letting users believe more characters are being checked.
+  if (password.length > 72) {
+    return "Password must be at most 72 characters.";
+  }
+  if (email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return "Enter a valid email address.";
+  }
 
   const existing = await prisma.user.findUnique({ where: { email } });
   if (existing) {
     return "An account with that email already exists.";
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const hashedPassword = await bcrypt.hash(password, 12);
   await prisma.user.create({
     data: { email, name: name || null, hashedPassword },
   });

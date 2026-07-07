@@ -11,14 +11,14 @@ export default async function SettingsPage() {
   });
 
   return (
-    <div className="flex flex-1 flex-col gap-6 p-8 sm:p-16">
+    <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-8 px-6 py-10 sm:py-12">
       <div>
-        <h1 className="text-2xl font-semibold text-black dark:text-zinc-50">
+        <h1 className="text-2xl font-semibold tracking-tight text-zinc-50">
           Settings
         </h1>
         <Link
           href="/dashboard"
-          className="mt-1 inline-block text-sm text-zinc-600 hover:underline dark:text-zinc-400"
+          className="mt-1 inline-block text-sm text-zinc-400 hover:underline"
         >
           ← Back to dashboard
         </Link>
@@ -26,7 +26,7 @@ export default async function SettingsPage() {
 
       <form
         action={updateEmailReminderPreference}
-        className="flex max-w-md flex-col gap-4 rounded-xl border border-black/[.08] p-4 dark:border-white/[.145]"
+        className="flex max-w-md flex-col gap-4 glass-card p-4"
       >
         <label className="flex items-start gap-2 text-sm">
           <input
@@ -37,7 +37,7 @@ export default async function SettingsPage() {
           />
           <span>
             Email me task reminders
-            <span className="block text-xs text-zinc-500 dark:text-zinc-400">
+            <span className="block text-xs text-zinc-400">
               At most one email per reminder per day, only for reminders
               that are overdue or due today. Off by default.
             </span>
@@ -45,10 +45,10 @@ export default async function SettingsPage() {
         </label>
 
         <fieldset className="flex flex-col gap-2 text-sm">
-          <legend className="mb-1 text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+          <legend className="mb-1 text-xs font-medium uppercase tracking-wide text-zinc-400">
             Frequency
           </legend>
-          <p className="-mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+          <p className="-mt-1 text-xs text-zinc-400">
             Only applies while email reminders are turned on above.
           </p>
           <label className="flex items-start gap-2">
@@ -61,7 +61,7 @@ export default async function SettingsPage() {
             />
             <span>
               Immediate
-              <span className="block text-xs text-zinc-500 dark:text-zinc-400">
+              <span className="block text-xs text-zinc-400">
                 One email per reminder, as it becomes overdue or due today.
               </span>
             </span>
@@ -76,7 +76,7 @@ export default async function SettingsPage() {
             />
             <span>
               Daily digest
-              <span className="block text-xs text-zinc-500 dark:text-zinc-400">
+              <span className="block text-xs text-zinc-400">
                 One email per day summarizing all overdue and due-today
                 reminders. Nothing is sent on days with none.
               </span>
@@ -86,7 +86,7 @@ export default async function SettingsPage() {
 
         <button
           type="submit"
-          className="self-start rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc]"
+          className="self-start rounded-full btn-primary px-5 py-2 text-sm"
         >
           Save
         </button>

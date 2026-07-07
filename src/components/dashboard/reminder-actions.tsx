@@ -13,7 +13,7 @@ const SNOOZE_PRESETS = [
 ] as const;
 
 const buttonClass =
-  "text-xs font-medium text-black hover:underline disabled:opacity-60 dark:text-zinc-50";
+  "text-xs font-medium text-zinc-50 hover:underline disabled:opacity-60";
 
 export function ReminderActions({
   applicationId,
@@ -28,14 +28,14 @@ export function ReminderActions({
 
   if (result === "snoozed") {
     return (
-      <span className="text-xs text-zinc-500 dark:text-zinc-400">
+      <span className="text-xs text-zinc-400">
         Snoozed
       </span>
     );
   }
   if (result === "dismissed") {
     return (
-      <span className="text-xs text-zinc-500 dark:text-zinc-400">
+      <span className="text-xs text-zinc-400">
         Dismissed
       </span>
     );
@@ -83,14 +83,14 @@ export function ReminderActions({
               }
             });
           }}
-          className="text-xs text-zinc-500 hover:underline disabled:opacity-60 dark:text-zinc-400"
+          className="text-xs text-zinc-400 hover:underline disabled:opacity-60"
         >
           Dismiss
         </button>
       </div>
       <MarkTaskDoneButton applicationId={applicationId} id={id} />
       {error ? (
-        <span className="text-xs text-red-600 dark:text-red-400">
+        <span className="text-xs text-red-400">
           {error}
         </span>
       ) : null}

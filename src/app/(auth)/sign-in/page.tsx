@@ -13,10 +13,10 @@ export default function SignInPage() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h1 className="text-xl font-semibold text-black dark:text-zinc-50">
+        <h1 className="text-xl font-semibold text-zinc-50">
           Sign in
         </h1>
-        <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+        <p className="mt-1 text-sm text-zinc-400">
           Welcome back to TrackMyApply AI.
         </p>
       </div>
@@ -29,7 +29,7 @@ export default function SignInPage() {
             type="email"
             required
             autoComplete="email"
-            className="rounded-md border border-black/[.08] bg-transparent px-3 py-2 text-sm outline-none focus:border-black/40 dark:border-white/[.145] dark:focus:border-white/40"
+            className="glass-input px-3 py-2 text-sm"
           />
         </label>
         <label className="flex flex-col gap-1 text-sm">
@@ -39,12 +39,12 @@ export default function SignInPage() {
             type="password"
             required
             autoComplete="current-password"
-            className="rounded-md border border-black/[.08] bg-transparent px-3 py-2 text-sm outline-none focus:border-black/40 dark:border-white/[.145] dark:focus:border-white/40"
+            className="glass-input px-3 py-2 text-sm"
           />
         </label>
 
         {errorMessage ? (
-          <p className="text-sm text-red-600 dark:text-red-400">
+          <p className="text-sm text-red-400">
             {errorMessage}
           </p>
         ) : null}
@@ -52,15 +52,15 @@ export default function SignInPage() {
         <button
           type="submit"
           disabled={isPending}
-          className="rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] disabled:opacity-60 dark:hover:bg-[#ccc]"
+          className="rounded-full btn-primary px-5 py-2 text-sm disabled:opacity-60"
         >
           {isPending ? "Signing in…" : "Sign in"}
         </button>
       </form>
 
-      <p className="text-sm text-zinc-600 dark:text-zinc-400">
+      <p className="text-sm text-zinc-400">
         No account yet?{" "}
-        <Link href="/sign-up" className="font-medium text-black dark:text-zinc-50">
+        <Link href="/sign-up" className="font-medium text-zinc-50">
           Sign up
         </Link>
       </p>
