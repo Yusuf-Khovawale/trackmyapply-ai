@@ -12,7 +12,7 @@ export type ReminderEmailInput = {
 };
 
 const FROM_ADDRESS =
-  process.env.REMINDER_EMAIL_FROM || "TrackMyApply AI <reminders@trackmyapply.app>";
+  process.env.REMINDER_EMAIL_FROM || "GetHired AI <reminders@trackmyapply.app>";
 
 function formatReminderDate(date: Date) {
   return date.toLocaleDateString("en-US", {
@@ -39,7 +39,7 @@ export async function sendReminderEmail(input: ReminderEmailInput): Promise<void
     `${input.taskTitle}\n` +
     `${input.role} at ${input.company}\n` +
     `Reminder date: ${dateLabel}${input.tone === "overdue" ? " (overdue)" : " (today)"}\n\n` +
-    `Open it in TrackMyApply AI: ${input.taskUrl}\n\n` +
+    `Open it in GetHired AI: ${input.taskUrl}\n\n` +
     `---\n` +
     `Don't want reminder emails? Unsubscribe: ${input.unsubscribeUrl}\n` +
     `You can re-enable them anytime in Settings.`;

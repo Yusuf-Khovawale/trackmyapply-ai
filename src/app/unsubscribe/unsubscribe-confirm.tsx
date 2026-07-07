@@ -44,7 +44,7 @@ export function UnsubscribeConfirm({ token }: { token: string }) {
         Unsubscribe from reminder emails?
       </p>
       <p className="mt-2 text-sm text-zinc-400">
-        You&apos;ll stop receiving task reminder emails from TrackMyApply AI.
+        You&apos;ll stop receiving task reminder emails from GetHired AI.
       </p>
       <form action={formAction} className="mt-6">
         <input type="hidden" name="token" value={token} />

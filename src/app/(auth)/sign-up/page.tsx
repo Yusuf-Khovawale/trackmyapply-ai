@@ -17,7 +17,7 @@ export default function SignUpPage() {
           Create your account
         </h1>
         <p className="mt-1 text-sm text-zinc-400">
-          Start tracking your job search with TrackMyApply AI.
+          Start tracking your job search with GetHired AI.
         </p>
       </div>
 

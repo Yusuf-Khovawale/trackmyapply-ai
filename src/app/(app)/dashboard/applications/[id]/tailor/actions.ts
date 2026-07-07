@@ -8,9 +8,23 @@ import {
   tailorInputSchema,
   saveTailoredResumeSchema,
 } from "@/lib/validation/tailor";
-import { tailorResume } from "@/lib/ai/tailor-resume";
+import { runTailorPipeline } from "@/lib/ai/tailor-resume";
+import { generateCoverLetter } from "@/lib/ai/cover-letter";
+import type { StructuredResume } from "@/lib/validation/resume-structured";
+import type { Prisma } from "@/generated/prisma/client";
 
-export type TailorState = { error: string } | { draft: string } | undefined;
+export type TailorState =
+  | { error: string }
+  | {
+      draft: string;
+      structured: StructuredResume;
+      matchScore: number;
+      baseScore: number;
+      matched: string[];
+      missing: string[];
+      attempts: number;
+    }
+  | undefined;
 
 export async function generateTailoredDraft(
   applicationId: string,
@@ -26,8 +40,8 @@ export async function generateTailoredDraft(
     return { error: parsed.error.issues[0]?.message ?? "Invalid input." };
   }
 
-  // Both lookups are scoped by userId so this can never read another
-  // user's application or resume, even with a tampered resumeId.
+  // All lookups scoped by userId so this can never read another user's
+  // application, resume, or profile.
   const application = await prisma.application.findFirst({
     where: { id: applicationId, userId },
   });
@@ -48,15 +62,29 @@ export async function generateTailoredDraft(
     return { error: "That resume has no content saved yet." };
   }
 
+  const [profile, user] = await Promise.all([
+    prisma.profile.findUnique({ where: { userId } }),
+    prisma.user.findUnique({ where: { id: userId }, select: { email: true } }),
+  ]);
+
   try {
-    const draft = await tailorResume({
+    const result = await runTailorPipeline({
       company: application.company,
       role: application.role,
       jobDescription: application.jobDescription,
-      resumeTitle: resume.title,
-      resumeContent: resume.content,
+      baseResumeTitle: resume.title,
+      baseResumeContent: resume.content,
+      profile: profile ? { ...profile, email: user?.email } : { email: user?.email },
     });
-    return { draft };
+    return {
+      draft: result.text,
+      structured: result.structured,
+      matchScore: result.matchScore,
+      baseScore: result.baseScore,
+      matched: result.report.matched,
+      missing: result.report.missing,
+      attempts: result.attempts,
+    };
   } catch (error) {
     console.error("Resume tailoring failed:", error);
     return { error: "Could not generate a tailored draft. Please try again." };
@@ -76,6 +104,9 @@ export async function saveTailoredResume(
     draft: formData.get("draft"),
     baseResumeId: formData.get("baseResumeId"),
     linkToApplication: formData.get("linkToApplication"),
+    structuredJson: formData.get("structuredJson"),
+    matchScore: formData.get("matchScore") ?? undefined,
+    baseScore: formData.get("baseScore") ?? undefined,
   });
   if (!parsed.success) {
     return { error: parsed.error.issues[0]?.message ?? "Invalid input." };
@@ -106,6 +137,10 @@ export async function saveTailoredResume(
       baseRole: baseResume.baseRole ?? application.role,
       content: parsed.data.draft,
       notes: `Tailored from "${baseResume.title}" for the ${application.role} role at ${application.company}.`,
+      structured:
+        (parsed.data.structuredJson as Prisma.InputJsonValue | null) ?? undefined,
+      matchScore: parsed.data.matchScore ?? null,
+      baseScore: parsed.data.baseScore ?? null,
     },
   });
 
@@ -118,5 +153,56 @@ export async function saveTailoredResume(
 
   revalidatePath("/dashboard/resumes");
   revalidatePath("/dashboard");
-  redirect(`/dashboard/resumes/${newResume.id}/edit`);
+  redirect(`/dashboard/resumes/${newResume.id}/print`);
+}
+
+export type CoverLetterState =
+  | { error: string }
+  | { letter: string }
+  | undefined;
+
+export async function generateCoverLetterAction(
+  applicationId: string,
+  _prevState: CoverLetterState,
+  formData: FormData,
+): Promise<CoverLetterState> {
+  const userId = await requireUserId();
+
+  const resumeText = String(formData.get("resumeText") ?? "").trim();
+  if (!resumeText) {
+    return { error: "Generate or select a resume first." };
+  }
+
+  const application = await prisma.application.findFirst({
+    where: { id: applicationId, userId },
+  });
+  if (!application) {
+    return { error: "Application not found." };
+  }
+  if (!application.jobDescription) {
+    return { error: "This application has no job description saved yet." };
+  }
+
+  const profile = await prisma.profile.findUnique({ where: { userId } });
+
+  try {
+    const letter = await generateCoverLetter({
+      company: application.company,
+      role: application.role,
+      jobDescription: application.jobDescription,
+      resumeText: resumeText.slice(0, 20000),
+      candidateName: profile?.fullName,
+    });
+
+    await prisma.application.updateMany({
+      where: { id: applicationId, userId },
+      data: { coverLetter: letter },
+    });
+
+    revalidatePath(`/dashboard/applications/${applicationId}/tailor`);
+    return { letter };
+  } catch (error) {
+    console.error("Cover letter generation failed:", error);
+    return { error: "Could not generate a cover letter. Please try again." };
+  }
 }

@@ -10,6 +10,10 @@ import { StatusBreakdownChart } from "@/components/dashboard/status-breakdown-ch
 import { ApplicationsTrendChart } from "@/components/dashboard/applications-trend-chart";
 import { ConversionMetricsCard } from "@/components/dashboard/conversion-metrics-card";
 import {
+  NotificationPopups,
+  type ReminderNotification,
+} from "@/components/dashboard/notification-popups";
+import {
   APPLICATION_STATUSES,
   ACTIVE_APPLICATION_STATUSES,
   type ApplicationStatusValue,
@@ -59,7 +63,7 @@ export default async function DashboardPage({
 
   const userId = await requireUserId();
 
-  const [applications, tasks] = await Promise.all([
+  const [applications, tasks, profile] = await Promise.all([
     prisma.application.findMany({
       where: { userId },
       orderBy: { createdAt: "desc" },
@@ -86,6 +90,10 @@ export default async function DashboardPage({
         applicationId: true,
         application: { select: { company: true, role: true } },
       },
+    }),
+    prisma.profile.findUnique({
+      where: { userId },
+      select: { onboardedAt: true },
     }),
   ]);
 
@@ -116,6 +124,24 @@ export default async function DashboardPage({
     .filter(isReminderOverdue)
     .sort((a, b) => a.reminderAt!.getTime() - b.reminderAt!.getTime());
   const dueTodayReminders = tasksWithReminders.filter(isReminderDueToday);
+
+  // Login pop-ups: overdue first, then due-today (capped in the component).
+  const popupReminders: ReminderNotification[] = [
+    ...overdueReminders.map((task) => ({
+      id: task.id,
+      title: task.title,
+      company: task.application.company,
+      applicationId: task.applicationId,
+      kind: "overdue" as const,
+    })),
+    ...dueTodayReminders.map((task) => ({
+      id: task.id,
+      title: task.title,
+      company: task.application.company,
+      applicationId: task.applicationId,
+      kind: "today" as const,
+    })),
+  ];
   const upcomingReminders = tasksWithReminders
     .filter((task) => !isReminderOverdue(task) && !isReminderDueToday(task))
     .sort((a, b) => a.reminderAt!.getTime() - b.reminderAt!.getTime())
@@ -223,6 +249,27 @@ export default async function DashboardPage({
 
   return (
     <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-8 px-6 py-10 sm:py-12">
+      <NotificationPopups reminders={popupReminders} />
+
+      {!profile?.onboardedAt ? (
+        <div className="glass-card flex flex-wrap items-center justify-between gap-4 border-indigo-400/30 p-6">
+          <div>
+            <p className="text-sm font-semibold text-indigo-200">
+              Complete your profile to unlock your AI mentor
+            </p>
+            <p className="mt-1 text-sm text-zinc-400">
+              Your details power resume building, 90%+ JD matching, cover
+              letters, and job finding.
+            </p>
+          </div>
+          <Link
+            href="/dashboard/profile?welcome=1"
+            className="btn-primary rounded-full px-5 py-2 text-sm"
+          >
+            Set up profile
+          </Link>
+        </div>
+      ) : null}
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
         <StatCard
           label="Total applications"

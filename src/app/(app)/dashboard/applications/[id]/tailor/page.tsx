@@ -2,7 +2,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { requireUserId } from "@/lib/auth-guard";
-import { generateTailoredDraft, saveTailoredResume } from "./actions";
+import {
+  generateTailoredDraft,
+  saveTailoredResume,
+  generateCoverLetterAction,
+} from "./actions";
 import { TailorForm } from "@/components/applications/tailor-form";
 import { ContentPreview } from "@/components/applications/content-preview";
 import { StatusBadge } from "@/components/applications/status-badge";
@@ -31,6 +35,10 @@ export default async function TailorApplicationPage({
 
   const boundAction = generateTailoredDraft.bind(null, application.id);
   const boundSaveAction = saveTailoredResume.bind(null, application.id);
+  const boundCoverLetterAction = generateCoverLetterAction.bind(
+    null,
+    application.id,
+  );
 
   return (
     <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-8 px-6 py-10 sm:py-12">
@@ -100,7 +108,9 @@ export default async function TailorApplicationPage({
             <TailorForm
               action={boundAction}
               saveAction={boundSaveAction}
+              coverLetterAction={boundCoverLetterAction}
               resumes={resumes}
+              initialCoverLetter={application.coverLetter}
             />
           </div>
         </>

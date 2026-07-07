@@ -3,19 +3,19 @@ import { auth } from "@/auth";
 
 const FEATURES = [
   {
-    title: "Track every application",
+    title: "Never miss a follow-up",
     description:
-      "Statuses, follow-ups, and tasks for each role — nothing slips through the cracks.",
+      "Automatic follow-up reminders, email nudges, and login notifications — your mentor never lets a deadline slip.",
   },
   {
-    title: "Tailor your resume with AI",
+    title: "90%+ JD-matched resumes",
     description:
-      "Generate a job-specific resume draft from any saved job description in one click.",
+      "Iterative AI tailoring that scores your resume against the JD and revises until it clears 90%+ keyword match — with PDF, LaTeX, and cover letter exports.",
   },
   {
-    title: "Prep for interviews",
+    title: "Your personal career mentor",
     description:
-      "AI-generated likely questions, STAR stories, and company research per application.",
+      "Interview prep, hire-chance scoring, and a job finder that searches LinkedIn, Indeed, and Google — filtered to your profile.",
   },
 ] as const;
 
@@ -25,19 +25,19 @@ export default async function Home() {
   return (
     <main className="flex flex-1 flex-col items-center justify-center px-6 py-24 text-center">
       <span className="mb-8 rounded-full border border-white/[.12] bg-white/[.05] px-4 py-1.5 text-xs font-medium tracking-wide text-indigo-200 backdrop-blur-md">
-        Your job search, organized
+        Your AI mentor for landing the job
       </span>
 
       <h1 className="max-w-2xl text-4xl font-semibold tracking-tight text-zinc-50 sm:text-5xl sm:leading-[1.15]">
-        Track your job search, tailor your resume, and{" "}
+        Stop tracking applications. Start{" "}
         <span className="bg-gradient-to-r from-indigo-300 via-violet-300 to-cyan-300 bg-clip-text text-transparent">
-          prep with confidence
+          getting hired
         </span>
         .
       </h1>
       <p className="mt-6 max-w-md text-lg leading-relaxed text-zinc-400">
-        TrackMyApply AI keeps every application, resume version, and next step
-        in one place.
+        GetHired AI builds 90%+ JD-matched resumes, writes your cover
+        letters, finds jobs that fit you, and never lets a follow-up slip.
       </p>
 
       <div className="mt-10">

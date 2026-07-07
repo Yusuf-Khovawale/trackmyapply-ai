@@ -18,9 +18,9 @@ export async function SiteHeader() {
             aria-hidden
             className="flex h-7 w-7 items-center justify-center rounded-lg border border-white/20 bg-gradient-to-br from-indigo-400/90 to-violet-600/90 text-xs font-bold text-white shadow-[inset_0_1px_0_rgb(255_255_255/0.35),0_4px_12px_-2px_rgb(99_102_241/0.5)]"
           >
-            T
+            G
           </span>
-          TrackMyApply{" "}
+          GetHired{" "}
           <span className="bg-gradient-to-r from-indigo-300 to-cyan-300 bg-clip-text text-transparent">
             AI
           </span>
@@ -34,6 +34,12 @@ export async function SiteHeader() {
               </Link>
               <Link href="/dashboard/resumes" className={navLinkClass}>
                 Resumes
+              </Link>
+              <Link href="/dashboard/jobs" className={navLinkClass}>
+                Jobs
+              </Link>
+              <Link href="/dashboard/profile" className={navLinkClass}>
+                Profile
               </Link>
               <Link href="/dashboard/settings" className={navLinkClass}>
                 Settings

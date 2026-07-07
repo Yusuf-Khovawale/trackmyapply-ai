@@ -64,7 +64,13 @@ export async function registerAndSignIn(
   });
 
   try {
-    await signIn("credentials", { email, password, redirectTo: "/dashboard" });
+    // First login goes straight to profile onboarding — the AI mentor
+    // needs the user's details before it can build or tailor anything.
+    await signIn("credentials", {
+      email,
+      password,
+      redirectTo: "/dashboard/profile?welcome=1",
+    });
   } catch (error) {
     if (error instanceof AuthError) {
       return "Account created. Please sign in.";

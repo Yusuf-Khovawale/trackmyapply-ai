@@ -17,7 +17,7 @@ export default function SignInPage() {
           Sign in
         </h1>
         <p className="mt-1 text-sm text-zinc-400">
-          Welcome back to TrackMyApply AI.
+          Welcome back to GetHired AI.
         </p>
       </div>
 

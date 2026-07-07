@@ -8,6 +8,7 @@ import {
   applicationInputSchema,
   applicationStatusSchema,
 } from "@/lib/validation/application";
+import { ensureAutoTaskForStatus } from "@/lib/auto-tasks";
 
 export type ActionState = { error?: string } | undefined;
 
@@ -57,7 +58,7 @@ export async function createApplication(
     return { error: "Selected resume not found." };
   }
 
-  await prisma.application.create({
+  const created = await prisma.application.create({
     data: {
       ...rest,
       userId,
@@ -67,6 +68,15 @@ export async function createApplication(
       followUpDate: followUpDate ? new Date(followUpDate) : null,
     },
   });
+
+  // Mentor behavior: every new application gets its next-step reminder
+  // automatically (apply / follow up / prep, depending on status).
+  await ensureAutoTaskForStatus(
+    userId,
+    created.id,
+    created.company,
+    created.status,
+  );
 
   revalidatePath("/dashboard");
   redirect("/dashboard");
@@ -130,6 +140,21 @@ export async function updateApplicationStatus(id: string, status: string) {
 
   if (result.count === 0) {
     return { error: "Application not found." };
+  }
+
+  // Mentor behavior: a status change spawns the next-step reminder
+  // automatically (e.g. APPLIED -> follow-up, INTERVIEW -> prep).
+  const application = await prisma.application.findFirst({
+    where: { id, userId },
+    select: { company: true },
+  });
+  if (application) {
+    await ensureAutoTaskForStatus(
+      userId,
+      id,
+      application.company,
+      parsedStatus.data,
+    );
   }
 
   revalidatePath("/dashboard");

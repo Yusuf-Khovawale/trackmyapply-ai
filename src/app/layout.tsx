@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TrackMyApply AI",
+  title: "GetHired AI",
   description: "Track job applications, tailor resumes, and prep for interviews.",
 };
 
