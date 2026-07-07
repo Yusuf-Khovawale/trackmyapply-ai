@@ -4,6 +4,14 @@ import { AuthError } from "next-auth";
 import bcrypt from "bcryptjs";
 import { signIn } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { resolveAppBaseUrl } from "@/lib/app-url";
+import {
+  generateResetToken,
+  hashResetToken,
+  resetTokenExpiry,
+  RESET_TOKEN_TTL_MS,
+} from "@/lib/auth/password-reset-token";
+import { sendPasswordResetEmail } from "@/lib/email/send-password-reset-email";
 
 export async function authenticate(
   _prevState: string | undefined,
@@ -65,16 +73,4 @@ export async function registerAndSignIn(
 
   try {
     // First login goes straight to profile onboarding — the AI mentor
-    // needs the user's details before it can build or tailor anything.
-    await signIn("credentials", {
-      email,
-      password,
-      redirectTo: "/dashboard/profile?welcome=1",
-    });
-  } catch (error) {
-    if (error instanceof AuthError) {
-      return "Account created. Please sign in.";
-    }
-    throw error;
-  }
-}
+    // needs the user's details before it can build or tailor any
