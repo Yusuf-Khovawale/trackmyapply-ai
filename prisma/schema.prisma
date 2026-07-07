@@ -272,4 +272,33 @@ model Task {
 // GetHired AI: full candidate profile, captured right after first sign-in.
 // This is the source of truth the AI mentor uses for resume generation,
 // JD tailoring, cover letters, and job matching. All fields optional so
-// onboarding can be completed incrementall
+// onboarding can be completed incrementally; onboardedAt marks completion.
+model Profile {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  fullName       String?
+  headline       String?
+  phone          String?
+  location       String?
+  linkedinUrl    String?
+  githubUrl      String?
+  portfolioUrl   String?
+  summary        String? @db.Text
+  skills         String? @db.Text
+  experience     String? @db.Text
+  education      String? @db.Text
+  projects       String? @db.Text
+  certifications String? @db.Text
+
+  // Job-finder preferences.
+  targetRoles     String?
+  targetLocations String?
+  workPreference  String?
+  experienceLevel String?
+
+  onboardedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
